@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="planetStroke" x1="72" y1="88" x2="440" y2="424" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22D3EE"/>
+      <stop offset="55%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <radialGradient id="planetCore" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(216 216) rotate(45) scale(170)">
+      <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#6366F1" stop-opacity="0.08"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#060913"/>
+  <circle cx="256" cy="256" r="118" fill="url(#planetCore)" stroke="url(#planetStroke)" stroke-width="22"/>
+  <path d="M256 138C296 172 316 212 316 256C316 300 296 340 256 374" stroke="url(#planetStroke)" stroke-width="14" stroke-linecap="round" stroke-opacity="0.65"/>
+  <ellipse cx="256" cy="256" rx="194" ry="72" transform="rotate(-24 256 256)" stroke="url(#planetStroke)" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="404" cy="190" r="24" fill="#22D3EE"/>
+</svg>

@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    background-color: #ffffff;
+    color: #0f172a;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: #0f172a;
+  }
+
+  h1, h2, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Light 1Password-Inspired SaaS Surface & Input Helpers */
+.glass-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+  border-radius: 1rem;
+}
+
+.btn-platinum {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(29, 78, 216, 0.25);
+}
+
+.btn-platinum:hover {
+  background-color: #1e40af;
+}
+
+.input-obsidian {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  border-radius: 0.75rem;
+}
+
+.input-obsidian::placeholder {
+  color: #94a3b8;
+}
+
+.input-obsidian:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+  outline: none;
+}
+
+/* Collapse unfilled Google AdSense units cleanly to zero height */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+}
+
+/* Hide scrollbars cleanly on horizontally scrollable sub-tab bars while retaining scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Continuous infinite company marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 34s linear infinite;
+  will-change: transform;
+}
+
+/* Mobile right-edge fade mask for horizontal scroll strips */
+@media (max-width: 768px) {
+  .mobile-scroll-fade {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      black 0%,
+      black calc(100% - 28px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      black 0%,
+      black calc(100% - 28px),
+      transparent 100%
+    );
+  }
+}
+
+/* Switch Resume & Invoice layouts back to crisp white paper and black ink for Print / PDF */
+@media print {
+  :root {
+    color-scheme: light !important;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #000000 !important;
+  }
+
+  .no-print,
+  header,
+  nav,
+  aside[aria-label="Advertisement"],
+  footer {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #printable-career-doc,
+  #printable-finance-doc {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #printable-career-doc *,
+  #printable-finance-doc * {
+    background: transparent !important;
+    color: #09090b !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: none !important;
+  }
+
+  #printable-career-doc img {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hide any host-injected Netlify badge outside #root */
+netlify-badge,
+#netlify-badge,
+[data-netlify-badge],
+[data-netlify-deploy-id],
+body > *:not(#root):not(script):not(style) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
