@@ -5,11 +5,13 @@ import {
   Cpu,
   ExternalLink,
   Search,
+  Server,
   Terminal,
   Volume2,
 } from 'lucide-react';
 import { AdBanner } from '../AdBanner';
 import { BrandAvatar } from '../BrandAvatar';
+import { B2bCloudUtilities } from './B2bCloudUtilities';
 
 type DevToolCategory =
   | 'All'
@@ -34,7 +36,7 @@ const DEV_TOOLS: DevToolItem[] = [
     category: 'AI App Builders',
     description:
       'Prototyping environment and free API playground for building Gemini-powered apps.',
-    url: 'https://aistudio.google.com',
+    url: 'https://google.com',
     domain: 'google.com',
   },
   {
@@ -43,7 +45,7 @@ const DEV_TOOLS: DevToolItem[] = [
     category: 'Coding & Validation',
     description:
       'In-editor code completions and chat included free for individual GitHub accounts.',
-    url: 'https://github.com/features/copilot',
+    url: 'https://github.com',
     domain: 'github.com',
   },
   {
@@ -61,7 +63,7 @@ const DEV_TOOLS: DevToolItem[] = [
     category: 'Backend & Hosting',
     description:
       'Instant Git-to-edge web hosting with preview deploys, forms, and serverless functions.',
-    url: 'https://www.netlify.com',
+    url: 'https://netlify.com',
     domain: 'netlify.com',
   },
   {
@@ -70,7 +72,7 @@ const DEV_TOOLS: DevToolItem[] = [
     category: 'AI App Builders',
     description:
       'Visual cross-platform builder exporting clean Flutter code for iOS, Android, and Web.',
-    url: 'https://www.flutterflow.io',
+    url: 'https://flutterflow.io',
     domain: 'flutterflow.io',
   },
   {
@@ -79,7 +81,7 @@ const DEV_TOOLS: DevToolItem[] = [
     category: 'AI App Builders',
     description:
       'Block-based visual mobile app builder designed for rapid prototyping and education.',
-    url: 'https://appinventor.mit.edu',
+    url: 'https://mit.edu',
     domain: 'appinventor.mit.edu',
   },
   {
@@ -124,7 +126,7 @@ const DEV_TOOLS: DevToolItem[] = [
     category: 'Audio & Voice QA',
     description:
       'Free open-source audio editor enhanced with local AI noise suppression and stem tools.',
-    url: 'https://www.audacityteam.org',
+    url: 'https://audacityteam.org',
     domain: 'audacityteam.org',
   },
   {
@@ -169,9 +171,10 @@ function getDevCategoryIcon(category: Exclude<DevToolCategory, 'All'>) {
 }
 
 const DEV_TOOLS_PHOTO =
-  'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
+  'https://unsplash.com';
 
 export const DevToolsTab: React.FC = () => {
+  const [activeSuite, setActiveSuite] = useState<'cloud-utilities' | 'launchpad'>('cloud-utilities');
   const [category, setCategory] = useState<DevToolCategory>('All');
   const [query, setQuery] = useState('');
 
@@ -192,169 +195,159 @@ export const DevToolsTab: React.FC = () => {
 
   return (
     <section aria-labelledby="dev-tools-heading" className="space-y-6">
-      <div className="flex flex-col gap-4 border-b border-slate-200 pb-6 lg:flex-row lg:items-end lg:justify-between">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-3.5">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-[#1D4ED8]">
-              <Code2 className="h-5 w-5" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-[#1D4ED8]">
-                Builder Launchpad
-              </p>
-              <h2
-                id="dev-tools-heading"
-                className="font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl text-balance"
-              >
-                Free App Builders &amp; Developer Tools
-              </h2>
-            </div>
-          </div>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Curated launchpad of free-tier app builders, cloud hosting platforms, code validators, and remote audio utilities.
-          </p>
-        </div>
-
-        <div className="relative w-full lg:w-72">
-          <Search
-            className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-slate-400"
-            aria-hidden="true"
-          />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Filter developer tools..."
-            aria-label="Filter developer tools"
-            className="input-obsidian h-11 w-full pr-3.5 pl-10 text-sm"
-          />
-        </div>
-      </div>
-
-      {/* Horizontally Scrollable Category Sub-Tab Bar */}
-      <div
-        role="tablist"
-        aria-label="Filter developer tools by category"
-        className="flex items-center gap-2 overflow-x-auto scroll-smooth snap-x no-scrollbar mobile-scroll-fade px-1 pb-1"
-      >
-        {CATEGORIES.map((cat) => {
-          const isSelected = category === cat;
-          return (
-            <button
-              key={cat}
-              type="button"
-              role="tab"
-              aria-selected={isSelected}
-              onClick={(e) => {
-                setCategory(cat);
-                if (window.innerWidth <= 768) {
-                  e.currentTarget.scrollIntoView({
-                    behavior: 'smooth',
-                    inline: 'center',
-                    block: 'nearest',
-                  });
-                }
-              }}
-              className={`snap-center min-h-[38px] rounded-full border px-4 py-1.5 text-xs font-semibold transition-all whitespace-nowrap shrink-0 ${
-                isSelected
-                  ? 'border-[#1D4ED8] bg-[#1D4ED8] text-white shadow-sm'
-                  : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900'
-              }`}
-            >
-              {cat === 'All' ? `All Tools (${DEV_TOOLS.length})` : cat}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Light SaaS Card Grid with Photo Header */}
-      {filteredTools.length === 0 ? (
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-10 text-center">
-          <p className="text-sm font-medium text-slate-700">
-            No tools match "{query}".
-          </p>
+      {/* Top Suite Switcher */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-2">
+        <div className="flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={() => {
-              setQuery('');
-              setCategory('All');
-            }}
-            className="mt-4 min-h-[42px] rounded-xl bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E40AF]"
+            onClick={() => setActiveSuite('cloud-utilities')}
+            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold transition-all ${
+              activeSuite === 'cloud-utilities'
+                ? 'bg-[#1D4ED8] text-white shadow-sm'
+                : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+            }`}
           >
-            Show All {DEV_TOOLS.length} Tools
+            <Server className="h-4 w-4" aria-hidden="true" />
+            <span>B2B Cloud &amp; Web Utilities (4 Live Tools)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveSuite('launchpad')}
+            className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold transition-all ${
+              activeSuite === 'launchpad'
+                ? 'bg-[#1D4ED8] text-white shadow-sm'
+                : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+            }`}
+          >
+            <Code2 className="h-4 w-4" aria-hidden="true" />
+            <span>Builder Launchpad Directory ({DEV_TOOLS.length})</span>
           </button>
         </div>
+      </div>
+
+      {activeSuite === 'cloud-utilities' ? (
+        <>
+          <B2bCloudUtilities />
+          <AdBanner />
+        </>
       ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredTools.map((tool) => {
-            const CategoryIcon = getDevCategoryIcon(tool.category);
-
-            return (
-              <article
-                key={tool.id}
-                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1D4ED8]/40 hover:shadow-lg"
-              >
+        <>
+          <div className="flex flex-col gap-4 border-b border-slate-200 pb-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-3.5">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-[#1D4ED8]">
+                  <Code2 className="h-5 w-5" aria-hidden="true" />
+                </div>
                 <div>
-                  {/* h-36 Top Photo Header with Dark Gradient Overlay */}
-                  <div className="relative h-36 w-full overflow-hidden bg-slate-900">
-                    <img
-                      src={DEV_TOOLS_PHOTO}
-                      alt={tool.name}
-                      className="absolute inset-0 h-full w-full object-cover opacity-70 transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/95 via-[#0F172A]/70 to-[#0F172A]/25" />
-
-                    {/* Badges inside Photo Header */}
-                    <div className="absolute inset-0 flex flex-col justify-between p-4">
-                      <div className="flex items-start justify-between gap-3">
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/40 bg-slate-900/75 px-3 py-1 font-mono text-[10px] font-bold tracking-wider uppercase text-cyan-200 backdrop-blur-md">
-                          <CategoryIcon className="h-3.5 w-3.5 text-cyan-300" aria-hidden="true" />
-                          <span>{tool.category}</span>
-                        </span>
-
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-slate-900/80 p-1.5 backdrop-blur-md shadow-md">
-                          <BrandAvatar name={tool.name} domain={tool.domain} variant="dark" />
-                        </div>
-                      </div>
-
-                      <div>
-                        <span className="inline-flex rounded-md border border-white/20 bg-slate-900/75 px-2.5 py-0.5 text-[11px] font-semibold text-slate-100 backdrop-blur-md">
-                          {tool.domain}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Light SaaS Card Body */}
-                  <div className="p-5">
-                    <h3 className="truncate font-display text-lg font-bold tracking-tight text-slate-900 transition-colors group-hover:text-[#1D4ED8]">
-                      {tool.name}
-                    </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-slate-600 line-clamp-2">
-                      {tool.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Action Footer */}
-                <div className="border-t border-slate-100 bg-slate-50/60 px-5 py-3.5">
-                  <a
-                    href={tool.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[42px] w-full items-center justify-center gap-2 rounded-xl bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-[#1E40AF] whitespace-nowrap"
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[#1D4ED8]">
+                    Builder Launchpad
+                  </p>
+                  <h2
+                    id="dev-tools-heading"
+                    className="font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl text-balance"
                   >
-                    <span>Open Tool</span>
-                    <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                  </a>
+                    Free App Builders &amp; Developer Tools
+                  </h2>
                 </div>
-              </article>
-            );
-          })}
-        </div>
-      )}
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                Curated launchpad of free-tier app builders, cloud hosting platforms, code validators, and remote audio utilities.
+              </p>
+            </div>
 
-      <AdBanner />
-    </section>
-  );
+            <div className="relative w-full lg:w-72">
+              <Search
+                className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-slate-400"
+                aria-hidden="true"
+              />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Filter developer tools..."
+                aria-label="Filter developer tools"
+                className="input-obsidian h-11 w-full pr-3.5 pl-10 text-sm"
+              />
+            </div>
+          </div>
+
+          <div
+            role="tablist"
+            aria-label="Filter developer tools by category"
+            className="flex items-center gap-2 overflow-x-auto scroll-smooth snap-x no-scrollbar mobile-scroll-fade px-1 pb-1"
+          >
+            {CATEGORIES.map((cat) => {
+              const isSelected = category === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  role="tab"
+                  aria-selected={isSelected}
+                  onClick={(e) => {
+                    setCategory(cat);
+                    if (window.innerWidth <= 768) {
+                      e.currentTarget.scrollIntoView({
+                        behavior: 'smooth',
+                        inline: 'center',
+                        block: 'nearest',
+                      });
+                    }
+                  }}
+                  className={`snap-center min-h-[38px] rounded-full border px-4 py-1.5 text-xs font-semibold transition-all whitespace-nowrap shrink-0 ${
+                    isSelected
+? 'border-[#1D4ED8] bg-[#1D4ED8] text-white shadow-sm'
+: 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900'
+}} > {cat === 'All' ? All Tools (${DEV_TOOLS.length})` : cat}
+
+);
+})}
+{filteredTools.length === 0 ? (
+
+
+No tools match "{query}".
+
+<button
+type="button"
+onClick={() => {
+setQuery('');
+setCategory('All');
+}}
+className="mt-4 min-h-[42px] rounded-xl bg-[#1D4ED8] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E40AF]"
+>
+Show All {DEV_TOOLS.length} Tools
+
+
+) : (
+
+{filteredTools.map((tool) => {
+const CategoryIcon = getDevCategoryIcon(tool.category);
+return (
+
+
+
+
+{tool.category}
+{tool.domain}
+
+
+
+{tool.name}
+
+
+{tool.description}
+
+
+Open Tool
+
+
+
+
+);
+})}
+
+)}
+</>
+)}
+);
 };
